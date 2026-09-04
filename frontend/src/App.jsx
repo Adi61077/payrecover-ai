@@ -4,6 +4,7 @@ import { supabase } from './lib/supabaseClient'
 
 import Sidebar from './components/Sidebar'
 import Auth from './pages/Auth'
+import ResetPassword from './pages/ResetPassword'
 import Dashboard from './pages/Dashboard'
 import Payments from './pages/Payments'
 import PaymentDetail from './pages/PaymentDetail'
@@ -13,8 +14,17 @@ import AuditTrail from './pages/AuditTrail'
 export default function App() {
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [isRecovery, setIsRecovery] = useState(false)
 
   useEffect(() => {
+    const checkRecovery = () => {
+      const hash = window.location.hash
+      const params = new URLSearchParams(hash.replace('#', ''))
+      return params.get('type') === 'recovery'
+    }
+
+    setIsRecovery(checkRecovery())
+
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session)
       setLoading(false)
@@ -22,9 +32,13 @@ export default function App() {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session)
       setLoading(false)
+
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsRecovery(true)
+      }
     })
 
     return () => subscription.unsubscribe()
@@ -39,6 +53,10 @@ export default function App() {
         </div>
       </div>
     )
+  }
+
+  if (isRecovery) {
+    return <ResetPassword />
   }
 
   if (!session) {
