@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.115.0",
     "axios": "^1.7.7",
     "caniuse-lite": "^1.0.30001810",
     "clsx": "^2.1.1",

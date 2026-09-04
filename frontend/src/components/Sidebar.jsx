@@ -5,6 +5,7 @@ import {
   ClipboardList, Zap, Shield
 } from 'lucide-react'
 import clsx from 'clsx'
+import { supabase } from '../lib/supabaseClient'
 
 const nav = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
@@ -14,6 +15,9 @@ const nav = [
 ]
 
 export default function Sidebar() {
+    const handleSignOut = async () => {
+    await supabase.auth.signOut()
+  }
   return (
     <aside className="fixed left-0 top-0 h-full w-64 bg-slate-900 border-r border-slate-800 flex flex-col z-30">
       {/* Logo */}
@@ -60,6 +64,12 @@ export default function Sidebar() {
             <p className="text-xs text-slate-500">AI Safety Enabled</p>
           </div>
         </div>
+        <button
+  onClick={handleSignOut}
+  className="w-full mt-3 px-3 py-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition"
+>
+  Logout
+</button>
         <p className="text-xs text-slate-600 mt-3 px-1">
           Razorpay AI Buildathon 2026<br />
           Track 3: AI Revenue Recovery
