@@ -95,12 +95,12 @@ export default function AuditTrail() {
     <div className="p-8">
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-1">
-          <ClipboardList className="w-5 h-5 text-brand-400" />
-          <span className="text-xs font-semibold text-brand-400 uppercase tracking-wider">Audit Trail</span>
+          <ClipboardList className="w-5 h-5 text-brand-600" />
+          <span className="text-xs font-semibold text-brand-600 uppercase tracking-wider">Audit Trail</span>
         </div>
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-white">System Audit Trail</h1>
+            <h1 className="text-2xl font-bold text-slate-900">System Audit Trail</h1>
             <p className="text-slate-400 mt-1 text-sm">{total} total events · Complete history of all AI decisions and recovery actions</p>
           </div>
           <button onClick={load} className="btn-secondary">
@@ -110,27 +110,27 @@ export default function AuditTrail() {
       </div>
 
       {error && (
-        <div className="mb-6 p-4 bg-red-500/10 border border-red-800/50 rounded-lg text-red-400 text-sm">{error}</div>
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">{error}</div>
       )}
 
       {/* Filters */}
       <div className="flex gap-3 mb-6">
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
             placeholder="Search by payment ID, customer, event description..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-600"
+            className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
           />
         </div>
         <div className="relative">
-          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <select
             value={filterEvent}
             onChange={e => setFilterEvent(e.target.value)}
-            className="pl-9 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:border-brand-600 appearance-none cursor-pointer"
+            className="pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-800 focus:outline-none focus:border-brand-500 appearance-none cursor-pointer"
           >
             <option value="all">All Event Types</option>
             {eventTypes.map(t => (
@@ -146,7 +146,7 @@ export default function AuditTrail() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="card p-12 text-center">
-          <ClipboardList className="w-10 h-10 text-slate-700 mx-auto mb-3" />
+          <ClipboardList className="w-10 h-10 text-slate-300 mx-auto mb-3" />
           <p className="text-slate-400">No audit events found.</p>
         </div>
       ) : (
@@ -154,22 +154,22 @@ export default function AuditTrail() {
           {groupedByPayment.map(group => (
             <div key={group.payment_id} className="card overflow-hidden">
               {/* Payment header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-800/30">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50">
                 <div className="flex items-center gap-3">
-                  <span className="font-mono text-xs text-slate-400 bg-slate-800 px-2 py-1 rounded">
+                  <span className="font-mono text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">
                     {group.payment_id}
                   </span>
                   {group.customer_name && (
-                    <span className="text-sm font-medium text-slate-200">{group.customer_name}</span>
+                    <span className="text-sm font-medium text-slate-800">{group.customer_name}</span>
                   )}
                 </div>
                 <div className="flex items-center gap-3">
                   {group.amount && (
-                    <span className="text-sm font-bold text-white">{fmt(group.amount)}</span>
+                    <span className="text-sm font-bold text-slate-900">{fmt(group.amount)}</span>
                   )}
                   <Link
                     to={`/payments/${group.payment_id}`}
-                    className="text-xs text-brand-400 hover:text-brand-300 font-medium"
+                    className="text-xs text-brand-600 hover:text-brand-500 font-medium"
                   >
                     View Payment →
                   </Link>
@@ -189,7 +189,7 @@ export default function AuditTrail() {
                             <Icon className={`w-4 h-4 ${cfg.color}`} />
                           </div>
                           {i < group.logs.length - 1 && (
-                            <div className="w-px flex-1 bg-slate-800 my-1 min-h-[16px]" />
+                            <div className="w-px flex-1 bg-slate-200 my-1 min-h-[16px]" />
                           )}
                         </div>
                         <div className="pb-4 flex-1 min-w-0">
@@ -198,18 +198,18 @@ export default function AuditTrail() {
                               <div className="flex items-center gap-2 flex-wrap mb-1">
                                 <EventBadge eventType={log.event_type} />
                               </div>
-                              <p className="text-sm text-slate-200">{log.event_description}</p>
+                              <p className="text-sm text-slate-700">{log.event_description}</p>
                               {log.metadata && Object.keys(log.metadata).length > 0 && (
                                 <div className="mt-1.5 flex flex-wrap gap-1.5">
                                   {Object.entries(log.metadata).slice(0, 5).map(([k, v]) => (
-                                    <span key={k} className="text-xs bg-slate-800 rounded px-2 py-0.5 text-slate-500">
-                                      {k}: <span className="text-slate-300">{String(v)}</span>
+                                    <span key={k} className="text-xs bg-slate-100 rounded px-2 py-0.5 text-slate-500">
+                                      {k}: <span className="text-slate-700">{String(v)}</span>
                                     </span>
                                   ))}
                                 </div>
                               )}
                             </div>
-                            <span className="text-xs text-slate-500 whitespace-nowrap flex-shrink-0 flex items-center gap-1">
+                            <span className="text-xs text-slate-400 whitespace-nowrap flex-shrink-0 flex items-center gap-1">
                               <Clock className="w-3 h-3" /> {fmtDate(log.created_at)}
                             </span>
                           </div>
